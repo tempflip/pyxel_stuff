@@ -1,6 +1,17 @@
 import pyxel
 import math
 
+def rot(x_, y_, angle, cx=0, cy=0):
+
+	x = x_ - cx
+	y = y_ - cy
+	c = math.cos(math.radians(angle))
+	s = math.sin(math.radians(angle))
+	xn = x * c + y * s 
+	yn = -x * s + y * c
+
+	return (xn + cx, yn + cy)
+
 class Point:
 	def __init__(self, x, y, z):
 		self.x = x
@@ -23,9 +34,18 @@ class Shape:
 				)
 			prev_point = p
 
+	def rot_z(self, cx, cy, angle):
+		for p in self.points:
+			(p.x, p.y) = rot(p.x, p.y, angle, cx = cx, cy = cy)
+
+	def rot_y(self, cx, cz, angle):
+		for p in self.points:
+			(p.x, p.z) = rot(p.x, p.z, angle, cx = cx, cy = cz)
+
+
 class Camera:
 	# fl -- focal length
-	def __init__(self, fl = 100, angle = 45, fx = 100, fy = 100, fz = 100): 
+	def __init__(self, fl = 100, angle = 45, fx = 100, fy = 100): 
 		self.fl = fl
 		self.angle = angle
 		self.fy = fy
@@ -47,9 +67,6 @@ class Camera:
 		# print('x,y', x, y)
 
 		return (x, y)
-
-
-
 
 
 
@@ -96,6 +113,8 @@ class Demo:
 		pyxel.run(self.update, self.draw)
 
 	def update(self):
+		self.rot_all()
+
 		if pyxel.btn(pyxel.KEY_UP):
 			self.cam.fy+=1
 		elif pyxel.btn(pyxel.KEY_DOWN):
@@ -104,7 +123,16 @@ class Demo:
 			self.cam.fx+=1
 		elif pyxel.btn(pyxel.KEY_RIGHT):
 			self.cam.fx-=1
-
+		elif pyxel.btn(pyxel.KEY_Q):
+			self.cam.fl-=1
+		elif pyxel.btn(pyxel.KEY_A):
+			self.cam.fl+=1
+		elif pyxel.btn(pyxel.KEY_S):
+			self.cam.angle-=1
+		elif pyxel.btn(pyxel.KEY_D):
+			self.cam.angle+=1
+		# elif pyxel.btn(pyxel.KEY_R):
+			# self.rot_all()
 
 	def draw(self):
 		pyxel.cls(0)
@@ -112,5 +140,20 @@ class Demo:
 		for shape in self.shapes:
 			shape.draw(self.cam, 2)
 
+		pyxel.text(10, 10, 'fl: ' + str(self.cam.fl), 5)
+		pyxel.text(10, 16, 'angle: ' + str(self.cam.angle), 6)
+		pyxel.text(10, 22, 'fx, fy: ' + str(self.cam.fx) + ', ' + str(self.cam.fy), 7)
+
+	def rot_all(self):
+		for shape in self.shapes:
+			shape.rot_z(100, 100, 2)
+			shape.rot_y(100, 100, 1)
 	
-Demo()		
+Demo()	
+
+print(rot(5, 15, 0, 5, 5))
+print(rot(5, 15, 45, 5, 5))
+print(rot(5, 15, 90, 5, 5))
+print(rot(5, 15, 135, 5, 5))
+print(rot(5, 15, 180, 5, 5))
+
