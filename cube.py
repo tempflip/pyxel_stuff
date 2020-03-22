@@ -38,43 +38,7 @@ class App:
 		self.screen_y = 250
 
 		self.models = []
-		# self.shapes = []
-		# self.points = []
-		self.models.append(read_obj('cube.obj', px=50, py=50, pz=250, mlt=150))
-		print(self.models)
-		# p1 = Point(30,30,0)
-		# p2 = Point(30,150,0)
-		# p3 = Point(150,150,0)
-		# p4 = Point(150,30,0)
-
-		# pp1 = Point(30,30,100)
-		# pp2 = Point(30,150,100)
-		# pp3 = Point(150,150,100)
-		# pp4 = Point(150,30,100)
-
-		# ppp1 = Point(30,30,200)
-		# ppp2 = Point(30,150,200)
-		# ppp3 = Point(150,150,200)
-		# ppp4 = Point(150,30,200)
-
-		# pa1 = Point(150, 30, 0)
-		# pa2 = Point(150, 30, 200)
-		# pa3 = Point(150, 150, 200)
-		# pa4 = Point(150, 150, 0)
-
-		# self.points.extend([p1,p2,p3,p4])
-		# self.points.extend([pp1,pp2,pp3,pp4])
-		# self.points.extend([ppp1,ppp2,ppp3,ppp4])
-
-		# s1 = Shape([p1,p2, p3, p4])
-		# s2 = Shape([pp1,pp2, pp3, pp4])
-		# s3 = Shape([ppp1,ppp2, ppp3, ppp4])
-		# s4 = Shape([pa1,pa2, pa3, pa4])
-		# self.shapes.append(s1)
-		# self.shapes.append(s2)
-		# self.shapes.append(s3)
-		# self.shapes.append(s4)
-
+		self.models.append(read_obj('teapot.obj', px=100, py=100, pz=300, mlt=100))
 		self.cam = Camera()
 
 		pyxel.init(self.screen_x, self.screen_y, fps=100)
@@ -120,13 +84,11 @@ class App:
 	
 	def rot_y(self):
 		for model in self.models:		
-			for face in model.faces:
-				face.rot_y(30, 30, 1)
+			model.rot_y(100, 300, 1)
 
 	def rot_z(self):
 		for model in self.models:		
-			for face in model.faces:
-				face.rot_z(30, 30, 1)
+			model.rot_z(100, 100, 1)
 
 	
 App()	

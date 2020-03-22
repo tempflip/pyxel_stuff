@@ -33,10 +33,13 @@ class Shape:
 			(x1, y1) = camera.show_point(prev_point)
 			(x2, y2) = camera.show_point(p)
 
-			pyxel.line(x1, y1, x2, y2,
-				color
-				)
+			pyxel.line(x1, y1, x2, y2, color)
 			prev_point = p
+
+class Model:
+	def __init__(self, faces = [], points = []):
+		self.faces = faces
+		self.points = points
 
 	def rot_z(self, cx, cy, angle):
 		for p in self.points:
@@ -46,11 +49,6 @@ class Shape:
 		for p in self.points:
 			(p.x, p.z) = rot(p.x, p.z, angle, cx = cx, cy = cz)
 
-
-class Model:
-	def __init__(self, faces = [], points = []):
-		self.faces = faces
-		self.points = points
 
 class Camera:
 	# fl -- focal length
